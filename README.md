@@ -41,6 +41,9 @@ AmigaOS version | Compatibility
 
 ## Contributing
 
-Your contributions to echo2 are welcome! echo2 is built in C using the Aztec v5.0a compiler. I particularly need help in a couple of areas (such as detecting window column width and cli buffering) to finish off some existing features.
+Your contributions to echo2 are welcome! echo2 is built in C using the Aztec v5.0a compiler. Download the development environment for WinUAE here: http://echo2.org/echo2_dev_hdd.zip
 
-Download the development environment for WinUAE here: http://echo2.org/echo2_dev_hdd.zip
+
+## Acknowledgments
+
+Many thanks to @niklasekstrom for window/console expertise and wizardry!
