@@ -238,7 +238,7 @@ int getCenteringSpaces()
 {
     int spaces;
     spaces = getWindowColumns() / 2;
-    spaces -= strlen(state.message) / 2;
+    spaces -= (strlen(state.message) * (state.characterSpacing + 1)) / 2;
     
     if(state.borderStyle != BORDER_STYLE_NONE)
         spaces -= (state.borderPaddingH / 2) + 2;
