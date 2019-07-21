@@ -21,9 +21,12 @@
 #include "state.c"
 #include "args.c"
 #include "intuition.c"
-#include "border.c"
+#include "console.c"
 #include "window.c"
 #include "sleep.c"
+#include "border.c"
+
+BOOL evenTick;
 
 /**
  * Main entry point
@@ -32,18 +35,18 @@
  * @param char*[] argv Argument vector
  * @return int
  */
-int main(argc,argv)
-int argc;
-char *argv[];
+int main(int argc, char *argv[])
 {
     /* State initialization */
     state.borderStyle = BORDER_STYLE_NONE;
     state.borderPaddingH = 1;
     state.borderPaddingV = 0;
     state.characterSpacing = 0;
-    state.textSpeed = 50;
+    state.textSpeed = 0;
+    evenTick = TRUE;
     
     parseInput(argc, argv);
+    initConsole();
     render();
     closeIntuition();
     exit(0);
@@ -52,13 +55,11 @@ char *argv[];
 /**
  * Displays error message and exits
  *
- * @param char[] message The message to display
- * @param char[] param Parameter to be included in message
+ * @param char* message The message to display
+ * @param char* param Parameter to be included in message
  * @return void
  */
-void error(message, param)
-char message[100];
-char param[100];
+void error(char *message, char *param)
 {
     printf("%c[0mERROR: ", 27);
     
@@ -92,13 +93,13 @@ void render()
     
     if(state.requestor)
     {
-        displayRequester(&state.message);
+        displayRequester(state.message);
         return;
     }
     
     if(state.alert)
     {
-        displayAlert(&state.message);
+        displayAlert(state.message);
         return;
     }
     
@@ -138,66 +139,79 @@ void render()
  * @param BOOL renderMessage If true renders the message in the state, otherwise renders spaces
  * @return void
  */
-void renderLine(renderMessage)
-BOOL renderMessage;
+void renderLine(BOOL renderMessage)
 {
     int i;
+    char temp[10];
     
+    setScreenMode(DOSTRUE);
     printSpaces();
     
     if(state.borderStyle != BORDER_STYLE_NONE)
         outputVerticalBorder(BORDER_DIRECTION_LEFT);
     
     if(state.foreground)
-        printf("%c[%dm", 27, state.foreground);
+    {
+        sprintf(temp, "\x1B[%dm", state.foreground);
+        conWrite(temp);
+    }
     
     if(state.background)
-        printf("%c[%dm", 27, state.background);
+    {
+        sprintf(temp, "\x1B[%dm", state.background);
+        conWrite(temp);
+    }
     
     if(state.italic)
-        printf("%c[1m", 27);
+        conWrite("\x1B[1m");
     
     if(state.bold)
-        printf("%c[3m", 27);
+        conWrite("\x1B[3m");
     
     if(state.underline)
-        printf("%c[4m", 27);
+        conWrite("\x1B[4m");
     
     i = 0;
+    
     while(state.message[i] != EOS)
     {
         renderChar(
             renderMessage?state.message[i]:' ',
-            state.message[i + 1] == EOS
+            state.message[i + 1] == EOS,
+            renderMessage
         );
         
         i++;
     }
     
-    printf("%c[0m", 27);
+    conWrite("\x1B[0m");
     
     if(state.borderStyle != BORDER_STYLE_NONE)
         outputVerticalBorder(BORDER_DIRECTION_RIGHT);
     
-    printf("\n");
+    conWrite("\n");
+    setScreenMode(DOSFALSE);
 }
 
 /**
  * Renders a single character and delays for text speed wait time
  *
- * @param char c
+ * @param char c Character to render
+ * @param BOOL last Indicates if it is the last character
+ * @param BOOL sleeping
  * @return void
  */
-void renderChar(c, last)
-char c;
-BOOL last;
+void renderChar(char c, BOOL last, BOOL sleeping)
 {
-    putchar(c);
+    char ch[1];
+    sprintf(ch, "%c", c);
+    conWrite(ch); 
     
     if(!last)
         renderCharSpacing();
     
-    sleep(50 - state.textSpeed);
+    if(sleeping)
+        doSleep();
 }
 
 /**
@@ -212,7 +226,37 @@ void renderCharSpacing()
     if(state.characterSpacing > 0)
     {
         for(i = state.characterSpacing; i > 0; i--)
-            putchar(' ');
+        {
+            conWrite(" ");
+            doSleep();
+        }
+    }
+}
+
+/**
+ * Sleeps based on test speed
+ *
+ * @return void
+ */
+void doSleep()
+{
+    switch(state.textSpeed)
+    {
+        case 1:
+        case 2:
+            sleep(3 - state.textSpeed);
+            break;
+        
+        case 3:
+        case 4:
+            if(evenTick)
+            {
+                sleep(5 - state.textSpeed);
+                evenTick = FALSE;
+            }
+            else
+                evenTick = TRUE;
+            break;
     }
 }
 
@@ -226,7 +270,7 @@ void printSpaces()
     int i = 0;
     
     while(i++ < state.spaces)
-        putchar(' ');
+        conWrite(" ");
 }
 
 /**
@@ -286,7 +330,7 @@ void help()
     printf("  -b<n>     Background color [0-3]\n");
     printf("  -t<b,i,u> Font style [b]old, [i]talic, [u]nderline\n");
     printf("  -o<n,n,n> Border style [1-2], padding l/r, t/b\n");
- /* printf("  -d<n>     Text output speed (milseconds)\n"); */
+    printf("  -d<1-4>   Text output speed\n");
     printf("  -x        Flash screen\n");
     printf("  -r        Show text in requester\n");
     printf("  -a        Show text in alert\n");

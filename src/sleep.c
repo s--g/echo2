@@ -19,10 +19,10 @@
 /**
  * Sleeps for given number of ticks (50 per second)
  *
+ * @param int ticks
  * @see http://amigadev.elowar.com/read/ADCD_2.1/Includes_and_Autodocs_2._guide/node0292.html
  */
-void sleep(ticks)
-int ticks;
+void sleep(int ticks)
 {
     Delay(ticks);
 }

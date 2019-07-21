@@ -23,8 +23,8 @@
  */
 void outputHorizontalBorder()
 {
-    char corner;
-    char horizontal;
+    char *corner;
+    char *horizontal;
     int i = 0;
     
     printSpaces();
@@ -32,27 +32,31 @@ void outputHorizontalBorder()
     switch(state.borderStyle)
     {
         case BORDER_STYLE_1:
-            corner = '+';
-            horizontal = '-';
+            corner = "+";
+            horizontal = "-";
             break;
         
         case BORDER_STYLE_2:
-            corner = 'X';
-            horizontal = 'X';
-            printf("%c[45m", 27);
+            corner = "X";
+            horizontal = "X";
+            conWrite("\x1B[45m");
             break;
     }
     
-    putchar(corner);
+    conWrite(corner);
     
     while(
         i++ < strlen(state.message) +
         (state.borderPaddingH * 2) +
         (state.characterSpacing * (strlen(state.message) - 1))
     )
-        putchar(horizontal);
+    {
+        conWrite(horizontal);
+        doSleep();
+    }
     
-    printf("%c%c[0m\n", corner, 27);
+    conWrite(corner);
+    conWrite("\x1B[0m\n");
 }
 
 /**
@@ -61,8 +65,7 @@ void outputHorizontalBorder()
  * @param int direction Specifies whether to output the left or right border
  * @return void
  */
-void outputVerticalBorder(direction)
-int direction;
+void outputVerticalBorder(int direction)
 {
     if(direction == BORDER_DIRECTION_RIGHT)
         outputBorderPadding();
@@ -70,11 +73,11 @@ int direction;
     switch(state.borderStyle)
     {
         case BORDER_STYLE_1:
-            putchar('|');
+            conWrite("|");
             break;
         
         case BORDER_STYLE_2:
-            printf("%c[45mX%c[0m", 27, 27);
+            conWrite("\x1B[45mX\x1B[0m");
             break;
     }
     
@@ -93,5 +96,5 @@ void outputBorderPadding()
     i = state.borderPaddingH;
     
     while(i-- > 0)
-        putchar(' ');
+        conWrite(" ");
 }

@@ -58,8 +58,7 @@ void closeIntuition()
  * @param char* text
  * @return void
  */
-void displayRequester(text)
-char *text;
+void displayRequester(char *text)
 {
     struct IntuiText message;
     struct IntuiText okButton;
@@ -92,8 +91,7 @@ char *text;
  * @param char* text
  * @return void
  */
-void displayAlert(text)
-char *text;
+void displayAlert(char *text)
 {
     struct AlertMessage alert;
     alert.LeftEdge = 10;

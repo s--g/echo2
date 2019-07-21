@@ -23,9 +23,7 @@
  * @param char*[] argv Argument vector
  * @return void
  */
-void parseInput(argc, argv)
-int argc;
-char *argv[];
+void parseInput(int argc, char *argv[])
 {
     int arg = 1;
     
@@ -43,11 +41,10 @@ char *argv[];
 /**
  * Processes a command line option
  *
- * @param char[] option The option string
+ * @param char* option The option string
  * @return void
  */
-void processArg(option)
-char option[15];
+void processArg(char *option)
 {
     char key = option[1];
     char val[15];
@@ -63,18 +60,14 @@ char option[15];
  * Processes command line option value(s)
  *
  * @param char key The option key
- * @param char *p The option value string
+ * @param char* p The option value string
  * @return void
  */
-void processArgVal(key, p)
-char key;
-char *p;
+void processArgVal(char key, char *p)
 {
     char currentVal[15];
     int count = 0;
     int i = 0;
-    
-    /* p = &val[0]; */
     
     if(*p == EOS)
         setArg(key, NULL, NULL);
@@ -107,13 +100,10 @@ char *p;
  *
  * @param char key The option key
  * @param int index The index of the provided option value
- * @param char[] val The option value
+ * @param char* val The option value
  * @return void
  */
-void setArg(key, index, val)
-char key;
-int index;
-char val[15];
+void setArg(char key, int index, char *val)
 {
     int i;
     
@@ -187,7 +177,7 @@ char val[15];
         case 'd':
             if(index == 0)
             {
-                if(atoi(val) > 0 && atoi(val) <= 50)
+                if(atoi(val) > 0 && atoi(val) <= 4)
                     state.textSpeed = atoi(val);
                 else
                     error("Invalid value for option -d");

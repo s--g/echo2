@@ -1,5 +1,5 @@
 /**
- * echo2: echo2.h
+ * echo2: console.h
  *
  * Copyright (C) 1992-2019 Steven George (echo2.org)
  *
@@ -14,22 +14,8 @@
  * GNU General Public License for more details.
  */
 
-#ifndef EOS
-#define EOS '\0'
-#endif
-
-#undef NULL
-#define NULL 0
-
-int main();
-void error();
-void render();
-void renderLine();
-void renderChar();
-void doSleep();
-void printSpaces();
-int getCenteringSpaces();
-void renderCharSpacing();
-void credits();
-void info();
-void help();
+void initConsole();
+LONG setScreenMode();
+LONG conWrite();
+LONG conRead();
+LONG putConSp();
