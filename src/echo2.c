@@ -330,7 +330,7 @@ void help()
     printf("  -b<n>     Background color [0-3]\n");
     printf("  -t<b,i,u> Font style [b]old, [i]talic, [u]nderline\n");
     printf("  -o<n,n,n> Border style [1-2], padding l/r, t/b\n");
-    printf("  -d<1-4>   Text output speed\n");
+    printf("  -d<n>     Text output speed [1-4]\n");
     printf("  -x        Flash screen\n");
     printf("  -r        Show text in requester\n");
     printf("  -a        Show text in alert\n");

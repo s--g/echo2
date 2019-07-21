@@ -20,6 +20,7 @@ Usage: echo2 [<options>] "Your text"
     -b<n>     Background color [0-3]
     -t<b,i,u> Font style [b]old, [i]talic, [u]nderline
     -o<n,n,n> Border style [1-2], padding l/r, t/b
+    -d<n>     Text output speed [1-4]
     -x        Flash screen
     -r        Show text in requester
     -a        Show text in alert
