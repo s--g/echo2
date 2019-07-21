@@ -39,8 +39,20 @@ void initConsole()
 {
     mp = (struct MsgPort *)CreatePort(NULL, 0);
     con = (struct FileHandle *)BADDR(((struct Process *)FindTask(NULL))->pr_CIS);
+    setScreenMode(DOSTRUE);
 }
 
+/**
+ * Close the console
+ *
+ * @return void
+ */
+void closeConsole()
+{
+    setScreenMode(DOSFALSE);
+    DeletePort(mp);
+}
+ 
 /**
  * Set console screen mode
  *

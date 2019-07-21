@@ -15,6 +15,7 @@
  */
 
 void initConsole();
+void closeConsole();
 LONG setScreenMode();
 LONG conWrite();
 LONG conRead();

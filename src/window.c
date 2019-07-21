@@ -30,12 +30,8 @@ int getWindowColumns()
     char rbuf[CON_READ_BUFFER];
     int len, start, ind, rows, cols;
     
-    initConsole();
-    setScreenMode(DOSTRUE);
     conWrite("\x9b" "0 q");
     len = conRead(rbuf);    /* "\x9b" "1;1;33;77 r" */
-    setScreenMode(DOSFALSE);
-    DeletePort(mp);
     
     if (len < BOUNDS_REPORT_MIN_LENGTH || rbuf[len - 1] != 'r')
         return DEFAULT_WINDOW_WIDTH; /* Failed to read Window Bounds Report, returning default value. */

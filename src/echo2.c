@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
     state.textSpeed = 0;
     evenTick = TRUE;
     
-    parseInput(argc, argv);
     initConsole();
+    parseInput(argc, argv);
     render();
     closeIntuition();
+    closeConsole();
     exit(0);
 }
 
@@ -73,6 +74,7 @@ void error(char *message, char *param)
     
     info();
     closeIntuition();
+    closeConsole();
     exit(1);
 }
 
@@ -144,7 +146,6 @@ void renderLine(BOOL renderMessage)
     int i;
     char temp[10];
     
-    setScreenMode(DOSTRUE);
     printSpaces();
     
     if(state.borderStyle != BORDER_STYLE_NONE)
@@ -190,7 +191,6 @@ void renderLine(BOOL renderMessage)
         outputVerticalBorder(BORDER_DIRECTION_RIGHT);
     
     conWrite("\n");
-    setScreenMode(DOSFALSE);
 }
 
 /**
