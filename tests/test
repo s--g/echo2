@@ -23,3 +23,5 @@ echo2 -b1 "Background color 1"
 echo2 -b2 "Background color 2"
 
 echo2 -b3 "Background color 3"
+
+echo2 -r "Cool demo huh?"

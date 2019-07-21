@@ -40,6 +40,15 @@ AmigaOS version | Compatibility
 3.0             | Compatible
 
 
+## Test script
+
+There is a test script that you can use to demonstrate some of the features of echo2 available in the /tests directory of this repository.  Install echo2 and then run the script using the execute command:
+
+```
+execute test
+```
+
+
 ## Contributing
 
 Your contributions to echo2 are welcome! echo2 is built in C using the Aztec v5.0a compiler. Download the development environment for WinUAE here: http://echo2.org/echo2_dev_hdd.zip
