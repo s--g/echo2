@@ -177,7 +177,9 @@ void setArg(char key, int index, char *val)
         case 'd':
             if(index == 0)
             {
-                if(atoi(val) > 0 && atoi(val) <= 4)
+                if(val == NULL)
+                    state.textSpeed = -1;
+                else if(atoi(val) > 0 && atoi(val) <= 5)
                     state.textSpeed = atoi(val);
                 else
                     error("Invalid value for option -d");

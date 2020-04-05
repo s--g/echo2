@@ -52,7 +52,9 @@ void outputHorizontalBorder()
     )
     {
         conWrite(horizontal);
-        doSleep();
+        
+        if(state.textSpeed > 0)
+            doSleep();
     }
     
     conWrite(corner);
@@ -60,7 +62,7 @@ void outputHorizontalBorder()
 }
 
 /**
- * Outputs a horizontab border based on the selected border style
+ * Outputs a vertical border based on the selected border style
  *
  * @param int direction Specifies whether to output the left or right border
  * @return void

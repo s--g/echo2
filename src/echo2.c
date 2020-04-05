@@ -234,7 +234,7 @@ void renderCharSpacing()
 }
 
 /**
- * Sleeps based on test speed
+ * Sleeps based on text speed
  *
  * @return void
  */
@@ -242,6 +242,9 @@ void doSleep()
 {
     switch(state.textSpeed)
     {
+        case -1:
+            sleep(((rand() % 10) + 2) * ((rand() % 2) + 1));
+            break;
         case 1:
         case 2:
             sleep(3 - state.textSpeed);
@@ -329,7 +332,7 @@ void help()
     printf("  -f<n>     Foreground color [0-3]\n");
     printf("  -b<n>     Background color [0-3]\n");
     printf("  -t<b,i,u> Font style [b]old, [i]talic, [u]nderline\n");
-    printf("  -o<n,n,n> Border style [1-2], padding l/r, t/b\n");
+    printf("  -o<n,n,n> Border style [1-2], padding h, padding v\n");
     printf("  -d<n>     Text output speed [1-4]\n");
     printf("  -x        Flash screen\n");
     printf("  -r        Show text in requester\n");
