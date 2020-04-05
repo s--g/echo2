@@ -43,9 +43,17 @@ AmigaOS version | Compatibility
 3.0             | Compatible
 
 
-## Test script
+## Examples
 
-There is a test script that you can use to demonstrate some of the features of echo2 available in the /tests directory of this repository.  Install echo2 and then run the script using the execute command:
+![Example #3](http://echo2.org/example-3.png "Example #3")
+
+![Example #1](http://echo2.org/example-1.png?1 "Example #1")
+
+![Example #2](http://echo2.org/example-2.png "Example #2")
+
+![Example #4](http://echo2.org/example-4.png "Example #4")
+
+See the /tests directory of this repository for a script containing more examples.  Install echo2 and then run the script using the execute command:
 
 ```
 execute test
