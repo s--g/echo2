@@ -46,9 +46,9 @@ void outputHorizontalBorder()
     conWrite(corner);
     
     while(
-        i++ < strlen(state.message) +
+        i++ < (strlen(state.message) - state.htmlCharCount) +
         (state.borderPaddingH * 2) +
-        (state.characterSpacing * (strlen(state.message) - 1))
+        (state.characterSpacing * ((strlen(state.message) - state.htmlCharCount) - 1))
     )
     {
         conWrite(horizontal);

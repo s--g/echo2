@@ -25,6 +25,7 @@ int main();
 void error();
 void render();
 void renderLine();
+int processTag();
 void renderChar();
 void doSleep();
 void printSpaces();

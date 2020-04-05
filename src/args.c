@@ -147,17 +147,6 @@ void setArg(char key, int index, char *val)
                 state.background = 40 + i;
             break;
             
-        case 't':
-            if(strcmp(val, "b"))
-                state.bold = TRUE;
-            else if(strcmp(val, "i"))
-                state.italic = TRUE;
-            else if(strcmp(val, "u"))
-                state.underline = TRUE;
-            else
-                error("Invalid value for -t");
-            break;
-        
         case 'o':
             i = atoi(val);
             if(index == 0)

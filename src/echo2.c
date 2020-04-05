@@ -86,6 +86,13 @@ void error(char *message, char *param)
 void render()
 {
     int i;
+    i = 0;
+    
+    do
+    {
+        if(state.message[i] == '<')
+            state.htmlCharCount += processTag(state.message, i) - i;
+    } while(state.message[i++] != EOS);
     
     if(state.clearScreen)
         putchar(12);
@@ -163,19 +170,16 @@ void renderLine(BOOL renderMessage)
         conWrite(temp);
     }
     
-    if(state.italic)
-        conWrite("\x1B[1m");
-    
-    if(state.bold)
-        conWrite("\x1B[3m");
-    
-    if(state.underline)
-        conWrite("\x1B[4m");
-    
     i = 0;
+    
+    if(!renderMessage)
+        i = state.htmlCharCount;
     
     while(state.message[i] != EOS)
     {
+        if(renderMessage && state.message[i] == '<')
+            i = processTag(state.message, i);
+        
         renderChar(
             renderMessage?state.message[i]:' ',
             state.message[i + 1] == EOS,
@@ -191,6 +195,46 @@ void renderLine(BOOL renderMessage)
         outputVerticalBorder(BORDER_DIRECTION_RIGHT);
     
     conWrite("\n");
+}
+
+/**
+ * Processes a HTML tag
+ *
+ * @param char* message The message string
+ * @param int pos The current render position
+ */
+int processTag(char *message, int pos)
+{
+    BOOL enable;
+    int p = pos + 1;
+    
+    if(message[p] == '/' && message[p + 2] == '>')
+    {
+        conWrite("\x1B[0m");
+        return p + 3;
+    }
+    else if(message[p + 1] != '>')
+        return pos;
+    
+    switch(message[p])
+    {
+        case 'b':
+            conWrite("\x1B[1m");
+            break;
+        
+        case 'i':
+            conWrite("\x1B[3m");
+            break;
+        
+        case 'u':
+             conWrite("\x1B[4m");
+            break;
+        
+        default:
+            return p - 1;
+    }
+    
+    return p + 2;
 }
 
 /**
@@ -285,7 +329,7 @@ int getCenteringSpaces()
 {
     int spaces;
     spaces = getWindowColumns() / 2;
-    spaces -= (strlen(state.message) * (state.characterSpacing + 1)) / 2;
+    spaces -= ((strlen(state.message) - state.htmlCharCount) * (state.characterSpacing + 1)) / 2;
     
     if(state.borderStyle != BORDER_STYLE_NONE)
         spaces -= (state.borderPaddingH / 2) + 2;
@@ -300,8 +344,8 @@ int getCenteringSpaces()
  */
 void credits()
 {
-    printf("%c[1mecho2%c[0m v0.10 %c[4mhttp://echo2.org%c[0m ", 27, 27, 27, 27);
-    printf("%c[3m(c)1992-2019 Steven George%c[0m\n", 27, 27);
+    printf("%c[1mecho2%c[0m v0.4 %c[4mhttp://echo2.org%c[0m ", 27, 27, 27, 27);
+    printf("%c[3m(c)1991-2020 Steven George%c[0m\n", 27, 27);
 }
 
 /**
@@ -324,6 +368,7 @@ void help()
 {
     credits();
     printf("\nUsage: echo2 [<options>] \"Your text\"\n");
+    printf("  Supported HTML tags: <b>, <i>, <u>\n");
     printf("  -l<n,n>   n blank lines before and after text\n");
     printf("  -s<n>     n spaces before text\n");
     printf("  -p<n>     n character spacing\n");
@@ -331,7 +376,6 @@ void help()
     printf("  -e        Clear screen first\n");
     printf("  -f<n>     Foreground color [0-3]\n");
     printf("  -b<n>     Background color [0-3]\n");
-    printf("  -t<b,i,u> Font style [b]old, [i]talic, [u]nderline\n");
     printf("  -o<n,n,n> Border style [1-2], padding h, padding v\n");
     printf("  -d<n>     Text output speed [1-4]\n");
     printf("  -x        Flash screen\n");

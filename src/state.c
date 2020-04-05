@@ -98,21 +98,6 @@ struct State
     BOOL flashScreen;
     
     /**
-     * @var BOOL bold Bold text
-     */
-    BOOL bold;
-    
-    /**
-     * @var BOOL italic Italic text
-     */
-    BOOL italic;
-    
-    /**
-     * @var BOOL underline Underline text
-     */
-    BOOL underline;
-    
-    /**
      * @var BOOL requestor Display text in system requeter
      */
     BOOL requestor;
@@ -131,4 +116,9 @@ struct State
      * @var char[] Text to output
      */
     char message[1000];
+    
+    /**
+     * @var int A count of the number of html characters in the message string
+     */
+    int htmlCharCount;
 } state;

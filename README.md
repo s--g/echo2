@@ -11,6 +11,10 @@ Official website: [http://echo2.org](http://echo2.org)
 
 ```
 Usage: echo2 [<options>] "Your text"
+  
+  Supported HTML tags: <b>, <i>, <u>
+  
+  Options:
     -l<n,n>   n blank lines before and after text
     -s<n>     n spaces before text
     -p<n>     n character spacing
@@ -18,9 +22,8 @@ Usage: echo2 [<options>] "Your text"
     -e        Clear screen first
     -f<n>     Foreground color [0-3]
     -b<n>     Background color [0-3]
-    -t<b,i,u> Font style [b]old, [i]talic, [u]nderline
     -o<n,n,n> Border style [1-2], padding l/r, t/b
-    -d<n>     Text output speed [1-4]
+    -d<n>     Text output speed [1-4], or specify no value to simulate typing
     -x        Flash screen
     -r        Show text in requester
     -a        Show text in alert

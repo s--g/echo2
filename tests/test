@@ -2,13 +2,9 @@ echo2 -e
 
 echo2 -o1,2,1 -c -d4 "Border style 1"
 
-echo2 -l1 -o2,2,1 -c -d4 "Border style 2"
+echo2 -l1,1 -o2,2,1 -c -d4 "Border style 2"
 
-echo2 -tb "Bold text"
-
-echo2 -ti "Italic text"
-
-echo2 -tu "Underlined text"
+echo2 -c "<b>Bold</b>, <i>italic</i> and <u>underline</u> HTML tag support"
 
 echo2 -d1 -p2 -c "Character spacing"
 
@@ -18,10 +14,10 @@ echo2 -f2 "Foreground color 2"
 
 echo2 -f3 "Foreground color 3"
 
-echo2 -b1 "Background color 1"
+echo2 -b1 -f2 "Background color 1"
 
 echo2 -b2 "Background color 2"
 
 echo2 -b3 "Background color 3"
 
-echo2 -r "Cool demo huh?"
+echo2 -r "This was an echo2 demo"
