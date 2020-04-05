@@ -53,6 +53,8 @@ AmigaOS version | Compatibility
 
 ![Example #4](http://echo2.org/example-4.png "Example #4")
 
+![Example #5](http://echo2.org/example-5.png?2 "Example #5")
+
 See the /tests directory of this repository for a script containing more examples.  Install echo2 and then run the script using the execute command:
 
 ```
